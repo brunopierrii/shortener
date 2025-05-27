@@ -12,6 +12,8 @@ RUN docker-php-ext-install pdo_pgsql pgsql
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-configure gd '--with-jpeg' '--with-freetype'
 RUN docker-php-ext-install intl opcache zip gd
+RUN apt-get install -y libgmp-dev
+RUN docker-php-ext-install gmp
 #RUN pecl install xdebug
 RUN a2enmod rewrite
 

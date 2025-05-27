@@ -26,8 +26,13 @@ class ShortnerController extends AbstractController
     public function shortner(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        $this->shortnerHash->generateHash($content['url']);
+        $hashUrl = $this->shortnerHash->generateHash($content['url']);
 
-        return new JsonResponse();
+        return $this->json(
+            [
+                'short_url' => 'https://' . $request->getHost() . '/' . $hashUrl,
+                'original_url' => $content['url'],
+            ]
+        );
     }
 }

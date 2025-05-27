@@ -20,11 +20,12 @@ urlForm.addEventListener('submit', async function(e) {
 
     try {
         // Simular chamada para o backend
-        await post(url);
+        const response = await post(url);
+        console.log(response.short_url);
 
         // Simular resposta do backend
         const mockResponse = {
-            shortUrl: 'https://short.ly/' + generateShortCode(),
+            shortUrl: response.short_url,
             originalUrl: url,
             clicks: Math.floor(Math.random() * 100)
         };
@@ -54,8 +55,7 @@ async function post(url) {
         },
         body: JSON.stringify({url})
     });
-
-    console.log(response);
+    return await response.json();
 }
 
 function showResult(data) {
@@ -80,7 +80,7 @@ function copyToClipboard(elementId) {
 
         setTimeout(() => {
             btn.textContent = originalText;
-            btn.style.background = '#667eea';
+            btn.style.background = '#27384a';
         }, 2000);
     }).catch(() => {
         alert('Não foi possível copiar. Selecione o texto manualmente.');
