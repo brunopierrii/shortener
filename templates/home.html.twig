@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+
+    <div class="header">
+        <h1>🔗 Shortener</h1>
+        <p>Turn long URLs into short, elegant links</p>
+    </div>
+
+    <form class="url-form" id="urlForm">
+        <div class="input-group">
+            <input
+                    type="url"
+                    class="url-input"
+                    id="urlInput"
+                    placeholder="Paste your url here (https://exemplo.com/)"
+                    required
+            >
+            <button type="submit" class="shorten-btn" id="shortenBtn">
+                Shorten Url
+            </button>
+        </div>
+    </form>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Shortening your URL...</p>
+    </div>
+
+    <div class="result-section" id="resultSection">
+        <div class="result-card">
+            <div class="result-item">
+                <label class="result-label">Shortened URL</label>
+                <div class="result-value">
+                    <span class="short-url" id="shortUrl"></span>
+                    <button class="copy-btn" onclick="copyToClipboard('shortUrl')">Copy</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <label class="result-label">Original URL</label>
+                <div class="result-value" id="originalUrl"></div>
+            </div>
+
+            <div class="stats">
+                <div class="stats-item">
+                    <span class="stats-number" id="clickCount">0</span>
+                    <span class="stats-label">Clicks</span>
+                </div>
+                <div class="stats-item">
+                    <span class="stats-number">🚀</span>
+                    <span class="stats-label">Active</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block javascripts %}
+        <script src="{{ asset('js/layout.js') }}"></script>
+    {% endblock %}
+</div>
+{% endblock %}
