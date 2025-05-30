@@ -13,28 +13,24 @@ urlForm.addEventListener('submit', async function(e) {
     const url = urlInput.value.trim();
     if (!url) return;
 
-    // Mostrar loading
     shortenBtn.disabled = true;
     loading.style.display = 'block';
     resultSection.classList.remove('show');
 
     try {
-        // Simular chamada para o backend
         const response = await post(url);
-        console.log(response.short_url);
+        if (response === undefined) return;
 
-        // Simular resposta do backend
-        const mockResponse = {
+        const responseObj = {
             shortUrl: response.short_url,
             originalUrl: url,
             clicks: Math.floor(Math.random() * 100)
         };
 
-        // Mostrar resultado
-        showResult(mockResponse);
+        showResult(responseObj);
 
     } catch (error) {
-        alert('Erro ao encurtar URL. Tente novamente.');
+        console.log(error);
     } finally {
         // Resetar botão
         shortenBtn.disabled = false;
@@ -43,19 +39,23 @@ urlForm.addEventListener('submit', async function(e) {
     }
 });
 
-function generateShortCode() {
-    return Math.random().toString(36).substring(2, 8);
-}
-
 async function post(url) {
-    const response = await fetch('/shortner', {
+    const response = await fetch('/shortener', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({url})
     });
+
+    if (!response.ok && response.status === 500) {
+        let jsonError = await response.json()
+        alert(jsonError.message);
+        return;
+    }
+
     return await response.json();
+
 }
 
 function showResult(data) {

@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\ShortenedUrlRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: ShortenedUrlRepository::class)]
 class ShortenedUrl
 {
     #[ORM\Id]
@@ -14,10 +16,10 @@ class ShortenedUrl
     private string $shortUrl;
     #[ORM\Column(name: 'original_url', type: 'string', length: 255)]
     private string $originalUrl;
-    #[ORM\Column(name: 'clicks', type: 'integer')]
-    private int $clicks;
-    #[ORM\Column(name: 'created_at', type: 'datetimetz')]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     private \DateTime $createdAt;
+    #[ORM\Column(name: 'clicks', type: 'integer', nullable: true)]
+    private ?int $clicks = null;
 
     public function getId(): int
     {
@@ -44,12 +46,12 @@ class ShortenedUrl
         $this->originalUrl = $originalUrl;
     }
 
-    public function getClicks(): int
+    public function getClicks(): ?int
     {
         return $this->clicks;
     }
 
-    public function setClicks(int $clicks): void
+    public function setClicks(?int $clicks): void
     {
         $this->clicks = $clicks;
     }
